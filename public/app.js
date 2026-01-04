@@ -29,12 +29,17 @@ let tempLabels = [], tempData = [], gpsHistory = [], historyLayer = null, map = 
 document.addEventListener("DOMContentLoaded", () => {
     initOrganSelector();
     initTempChart();
-    selectOrgan("heart"); // เริ่มต้นที่โหมดหัวใจ
+    selectOrgan("heart"); 
+    
+    // 1. ดึงตำแหน่งและอุณหภูมิปัจจุบัน (แสดงผลบนแผนที่/เกจ)
     setInterval(() => { 
         fetchTemperature(); 
         fetchGPS(); 
     }, 2000);
-    loadRecentAutoTable();
+
+    // 2. ดึงข้อมูลประวัติจาก DB มาลงตาราง (อัปเดตทุก 10 วินาที)
+    loadRecentAutoTable(); 
+    setInterval(loadRecentAutoTable, 10000); 
 });
 
 // ================= FUNCTIONS =================
@@ -373,3 +378,4 @@ async function loadRecentAutoTable() {
         console.error("โหลดข้อมูล Auto ไม่สำเร็จ:", err);
     }
 }
+
